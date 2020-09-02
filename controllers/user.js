@@ -1,6 +1,6 @@
 const User = require("../models/user");
 
-
+const bot = require("../util/bot")
 exports.createNewUser = async (req, res) => {
     try {
         const user = new User({
@@ -11,6 +11,7 @@ exports.createNewUser = async (req, res) => {
         });
         user.password = await user.hashPassword(req.body.password);
         let addedUser = await user.save()
+        await bot.logger(addedUser)
         res.status(200).json({
             msg: "Your Account Has been Created",
             data: addedUser
