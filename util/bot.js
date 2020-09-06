@@ -1,7 +1,5 @@
 const axios = require("axios");
-const e = require("express");
-
-const hook = "T0131AR2K1Q/B019WLA4V51/UinM4oC9wKvNK4RcxL7uBLDB";
+const hook = process.env.HOOK;
 
 exports.sendNotificationToBotty = async (error, log) => {
     try {
@@ -13,7 +11,7 @@ exports.sendNotificationToBotty = async (error, log) => {
                     pretext: "Booty Notification",
                     title: "Activity Log",
                     color: "good",
-                    text: `*${log.name}* ${log.email} with ₦${log.createdAt}`,
+                    text: log,
                 }, ],
             };
         } else if (error) {
@@ -27,7 +25,6 @@ exports.sendNotificationToBotty = async (error, log) => {
                 }, ],
             };
         }
-
         await axios.post(
             `https://hooks.slack.com/services/${hook}`,
             slackbody
@@ -36,7 +33,3 @@ exports.sendNotificationToBotty = async (error, log) => {
         console.log(err);
     }
 };
-
-// module.exports = {
-
-// }

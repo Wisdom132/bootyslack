@@ -11,7 +11,7 @@ exports.createNewUser = async (req, res) => {
         });
         user.password = await user.hashPassword(req.body.password);
         let addedUser = await user.save()
-        await bot.sendNotificationToBotty(null, addedUser)
+        await bot.sendNotificationToBotty(null, `${addedUser.name} Just Created an account with Email as ${addedUser.email}`)
         res.status(200).json({
             msg: "Your Account Has been Created",
             data: addedUser
@@ -50,7 +50,7 @@ exports.logUserIn = async (req, res) => {
             })
 
             if (token) {
-                await bot.sendNotificationToBotty(null, user)
+                await bot.sendNotificationToBotty(null, `${user.name} Just Logged in`)
                 res.status(200).json({
                     success: true,
                     token: token,
@@ -66,7 +66,6 @@ exports.logUserIn = async (req, res) => {
         }
     } catch (err) {
         await bot.sendNotificationToBotty(`An Error Occured`)
-
         console.log(err)
         res.status(500).json({
             type: "Something Went Wrong",
